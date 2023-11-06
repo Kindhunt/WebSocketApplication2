@@ -16,8 +16,7 @@ namespace TestWebSocketApplication2.Controllers
             return View();
         }
 
-        public IActionResult Login(User user)
-        {
+        public IActionResult Login() {
 			//var userFromDb = _dbContext.Users.Where(a => a.Email == user.Email && a.Password == user.Password).FirstOrDefault();
 			//if (userFromDb != null)
 			//{

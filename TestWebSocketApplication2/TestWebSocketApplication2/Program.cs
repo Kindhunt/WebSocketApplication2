@@ -4,12 +4,7 @@ using TestWebSocketApplication2;
 var builder = new AppConfigServices(args).Builder;
 var app = builder.Build();
 
-var webSocketOptions = new WebSocketOptions
-{
-    KeepAliveInterval = TimeSpan.FromMinutes(2)
-};
-
-app.UseWebSockets(webSocketOptions);
+app.UseWebSockets();
 
 app.UseRouting();
 
@@ -19,12 +14,10 @@ app.Map("/ws", wsApp =>
 {
     wsApp.Use(async (context, next) => 
     {
-        if (context.WebSockets.IsWebSocketRequest) 
-        {
+        if (context.WebSockets.IsWebSocketRequest) {
             using var webSocket = await context.WebSockets.AcceptWebSocketAsync();
         }
-        else 
-        {
+        else {
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
         }
         await next(context);
