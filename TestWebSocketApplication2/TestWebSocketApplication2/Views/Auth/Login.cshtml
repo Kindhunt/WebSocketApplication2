@@ -1,0 +1,33 @@
+﻿@page
+@{
+	var connection = System.Configuration.ConfigurationManager.AppSettings["WebSocketConnection"];
+}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Page Title</title>
+</head>
+<body>
+	<div>
+		<form name="login">
+			<input type="text" name="email" />
+			<input type="password" name="password" />
+			<input type="submit" name="login_button" />
+		</form>
+		<script>
+			let socket = new WebSocket(@connection);
+
+			document.forms.login.onsubmit = function () {
+				let user = {
+					Email: this.email.value,
+					Password: this.password.value
+				}
+
+				socket.send(JSON.stringify(user));
+
+				socket.close();
+			};
+		</script>
+	</div>
+</body>
+</html>

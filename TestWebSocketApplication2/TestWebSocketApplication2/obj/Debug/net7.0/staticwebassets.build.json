@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "rMCzg6Wn4BMcgsVY9BJp7fetv8F3iQclO4Qp1cfiMjg=",
+  "Source": "TestWebSocketApplication2",
+  "BasePath": "_content/TestWebSocketApplication2",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
