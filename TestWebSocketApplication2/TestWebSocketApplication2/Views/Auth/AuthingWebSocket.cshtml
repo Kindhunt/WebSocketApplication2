@@ -2,12 +2,28 @@
 @model User
 @{
 	var connection = System.Configuration.ConfigurationManager.AppSettings["WebSocketConnection"];
-	var mainPage = $"{System.Configuration.ConfigurationManager.AppSettings["HttpConnection"]}/Auth/Index";
 }
 <!DOCTYPE html>
 <html>
 <body>
 	<div>
+		<script>
+			let webSocket = new WebSocket(@connection);
+
+			let json = "@ViewBag.User";
+			
+			webSocket.send(JSON.stringify(json));
+
+			webSocket.onmessage = (e) {
+				if (e.data == "OK") {
+					webSocket.close();
+				}
+				else if (e.data == "BAD") {
+					throw new Error("smth wrong)");
+				}
+			}
+			return true;
+		</script>
 	</div>
 </body>
 </html>

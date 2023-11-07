@@ -9,8 +9,6 @@ app.UseWebSockets();
 
 app.UseRouting();
 
-app.MapGet("/", () => "Hello World!");
-
 app.Map("/ws", wsApp => 
 {
     wsApp.Use(async (context, next) => 
@@ -33,11 +31,11 @@ app.UseEndpoints(configure: endpoints =>
 {
     endpoints.MapControllerRoute(
         name: "Login",
-        pattern: "{controller=Auth}/{action=Login}/{id?}");
+        pattern: "{controller=Auth}/{action=Login}");
 
     endpoints.MapControllerRoute(
         name: "Index",
-        pattern: "{controller=Auth}/{action=Index}/{id?}");
+        pattern: "{controller=Auth}/{action=Index}");
 });
 
 app.Run();

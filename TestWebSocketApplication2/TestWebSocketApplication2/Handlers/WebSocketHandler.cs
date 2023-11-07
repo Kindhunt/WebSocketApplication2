@@ -66,8 +66,12 @@ namespace TestWebSocketApplication2.Handlers
 						userFromDB.IsAuth = true;
 
 						await context.SaveChangesAsync();
+
+						await SendMessage("OK", webSocket);
 					}
 					else { 
+						await SendMessage("BAD", webSocket);
+
 						throw new Exception("Data is uncorrect (email/password)"); 
 					}
 				}

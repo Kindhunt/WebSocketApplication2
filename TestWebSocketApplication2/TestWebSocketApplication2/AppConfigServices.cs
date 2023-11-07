@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace TestWebSocketApplication2
@@ -14,8 +15,13 @@ namespace TestWebSocketApplication2
             Builder = WebApplication.CreateBuilder(args);
             Builder.Services.AddDbContext<ApplicationDbContext>();
 			Builder.Services.AddMvc().AddControllersAsServices();
+			Builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+	            .AddCookie(options =>
+	            {
+		            options.LoginPath = "/Auth/Login";
+	            });
 
-            Builder.WebHost.UseKestrel(serverOptions =>
+			Builder.WebHost.UseKestrel(serverOptions =>
             {
                 serverOptions.Listen(
                     System.Net.IPAddress.Parse(
