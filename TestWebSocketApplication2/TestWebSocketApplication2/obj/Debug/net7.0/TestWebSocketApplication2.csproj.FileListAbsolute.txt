@@ -68,3 +68,5 @@ D:\test_app_2\TestWebSocketApplication2\TestWebSocketApplication2\obj\Debug\net7
 D:\test_app_2\TestWebSocketApplication2\TestWebSocketApplication2\obj\Debug\net7.0\TestWebSocketApplication2.RazorAssemblyInfo.cs
 D:\test_app_2\TestWebSocketApplication2\TestWebSocketApplication2\bin\Debug\net7.0\App.config
 D:\test_app_2\TestWebSocketApplication2\TestWebSocketApplication2\bin\Debug\net7.0\TestWebSocketApplication2.dll.config
+D:\test_app_2\TestWebSocketApplication2\TestWebSocketApplication2\bin\Debug\net7.0\AppExample.config
+D:\test_app_2\TestWebSocketApplication2\TestWebSocketApplication2\bin\Debug\net7.0\Newtonsoft.Json.dll

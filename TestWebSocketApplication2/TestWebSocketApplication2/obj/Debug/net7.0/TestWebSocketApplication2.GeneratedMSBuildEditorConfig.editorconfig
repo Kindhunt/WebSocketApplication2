@@ -16,6 +16,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\test_app_2\TestWebSocketApplication2\TestWebSocketApplication2
 build_property._RazorSourceGeneratorDebug = 
 
+[D:/test_app_2/TestWebSocketApplication2/TestWebSocketApplication2/Views/Auth/AuthingWebSocket.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxBdXRoaW5nV2ViU29ja2V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/test_app_2/TestWebSocketApplication2/TestWebSocketApplication2/Views/Auth/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

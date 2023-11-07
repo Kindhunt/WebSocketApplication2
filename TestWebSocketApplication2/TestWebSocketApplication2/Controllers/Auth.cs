@@ -4,30 +4,44 @@ using TestWebSocketApplication2.Models;
 namespace TestWebSocketApplication2.Controllers
 {
     public class Auth : Controller
-    {
+    { 
         private readonly ApplicationDbContext _dbContext;
+		private User _user;
         public Auth(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public IActionResult Index()
-        {
-            return View();
+		public IActionResult Index() {
+			if (_user == null) {
+				return View("Login");	
+			}
+
+			if (!_user.IsAuth) {
+				return View("Login");
+			}
+
+			return View();
         }
 
-        public IActionResult Login() {
-			//var userFromDb = _dbContext.Users.Where(a => a.Email == user.Email && a.Password == user.Password).FirstOrDefault();
-			//if (userFromDb != null)
-			//{
-			//    if(!userFromDb.IsAuth)
-			//    {
-			//        return View();
-			//    }
-			//    else return BadRequest();
-			//}
-			//else return BadRequest();
+		[HttpGet]
+		public IActionResult Login()
+		{
 			return View();
 		}
-    }
+
+		[HttpPost]
+		public IActionResult Login([FromForm] string email, [FromForm] string password)
+		{
+			_user = _dbContext.Users.SingleOrDefault(a => a.Email == email && a.Password == password);
+			
+			if (_user != null) {
+				if (_user.IsAuth) {
+					return RedirectToAction("Index", "Auth");
+				}
+			}
+
+			return View();
+		}
+	}
 }

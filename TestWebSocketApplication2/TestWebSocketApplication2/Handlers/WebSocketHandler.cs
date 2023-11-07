@@ -50,44 +50,39 @@ namespace TestWebSocketApplication2.Handlers
 			}
 		}
 
-		public static async Task Authenticating(object _obj)
+		public static async Task Authenticating(object _obj, WebSocket webSocket)
 		{
 			if (_obj.GetType() == typeof(User))
 			{
 				var user = (User)_obj;
 
-				var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-					.UseSqlServer(System.Configuration.ConfigurationManager.AppSettings["DatabaseConnection"])
-					.Options;
-
-				using (var context = new ApplicationDbContext(options))
+				using (var context = new ApplicationDbContext())
 				{
 					var userFromDB = context.Users
-						.Where(v => v.Email.Equals(user.Email) && v.Password.Equals(user.Password))
-						.FirstOrDefault();
-					if (userFromDB != null)
-					{
+						.SingleOrDefault(v => v.Email.Equals(user.Email) && v.Password.Equals(user.Password));
+
+					if (userFromDB != null) {
 						Console.WriteLine("Data is correct");
+						userFromDB.IsAuth = true;
+
+						await context.SaveChangesAsync();
 					}
-					else 
-					{ 
+					else { 
 						throw new Exception("Data is uncorrect (email/password)"); 
 					}
 				}
 			}
 
-			foreach (var webSocket in _webSockets) {
-				try
+			try
+			{
+				if (webSocket.State == WebSocketState.Open)
 				{
-					if (webSocket.State == WebSocketState.Open)
-					{
-						await SendMessage(_obj, webSocket);
-					}
+					await SendMessage(_obj, webSocket);
 				}
-				catch (Exception ex)
-				{
-					Console.WriteLine(ex.ToString());
-				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
 			}
 		}
 	}
@@ -108,12 +103,13 @@ namespace TestWebSocketApplication2.Handlers
 					var user = await WebSocketManager.ReceiveMessage<User>(webSocket);
 
 					Console.WriteLine("Authenticating...");
-					await WebSocketManager.Authenticating(user);
+					await WebSocketManager.Authenticating(user, webSocket);
 				}
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(ex.ToString());
+				//Console.WriteLine(ex.ToString());
+				Console.WriteLine("Some exception handled, disposing WebSocket connection");
 				WebSocketManager.RemoveWebSocket(webSocket);
 				webSocket.Dispose();
 			}

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using TestWebSocketApplication2;
+using TestWebSocketApplication2.Handlers;
 
 var builder = new AppConfigServices(args).Builder;
 var app = builder.Build();
@@ -15,7 +16,10 @@ app.Map("/ws", wsApp =>
     wsApp.Use(async (context, next) => 
     {
         if (context.WebSockets.IsWebSocketRequest) {
-            using var webSocket = await context.WebSockets.AcceptWebSocketAsync();
+            var webSocket = await context.WebSockets.AcceptWebSocketAsync();
+            var webSocketHandler = new WebSocketHandler();
+
+            await webSocketHandler.HandleWebSocket(webSocket);
         }
         else {
             context.Response.StatusCode = StatusCodes.Status400BadRequest;

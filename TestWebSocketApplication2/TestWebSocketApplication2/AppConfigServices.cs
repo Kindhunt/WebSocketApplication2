@@ -1,4 +1,7 @@
-﻿namespace TestWebSocketApplication2
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+
+namespace TestWebSocketApplication2
 {
     public class AppConfigServices
     {
@@ -10,7 +13,19 @@
         {
             Builder = WebApplication.CreateBuilder(args);
             Builder.Services.AddDbContext<ApplicationDbContext>();
-            Builder.Services.AddMvc().AddControllersAsServices();
-        }
-    }
+			Builder.Services.AddMvc().AddControllersAsServices();
+
+            Builder.WebHost.UseKestrel(serverOptions =>
+            {
+                serverOptions.Listen(
+                    System.Net.IPAddress.Parse(
+                        System.Configuration.ConfigurationManager.AppSettings["HttpsAddress"]), 
+                    int.Parse(System.Configuration.ConfigurationManager.AppSettings["HttpsPort"]),
+                    listenOptions =>
+                {
+                    listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
+                });
+            });
+		}
+	}
 }
